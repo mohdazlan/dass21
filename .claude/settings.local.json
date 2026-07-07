@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(npm ls *)",
+      "Bash(npm run *)",
+      "Bash(npm init *)",
+      "Bash(node -e \"console.log\\(require\\('pg/package.json'\\).version\\)\")",
+      "Bash(PG_CONN=\"postgresql://postgres:PASSW0RDmukah2026@db.lzrufxfifuuaiqwbnevi.supabase.co:5432/postgres\" node run_migration.js)",
+      "Bash(dig +short AAAA db.lzrufxfifuuaiqwbnevi.supabase.co)",
+      "Bash(nslookup -type=AAAA db.lzrufxfifuuaiqwbnevi.supabase.co)",
+      "Bash(PG_HOST=\"2406:da1c:4c7:f800::e9ee\" PG_PASSWORD=\"PASSW0RDmukah2026\" node run_migration.js)",
+      "Bash(node --experimental-strip-types /private/tmp/claude-501/-Users-azlan-Documents-AI-agent-DASS-21/c1a3cb5f-9030-4883-afbe-fc72fac2256d/scratchpad/test_scoring.ts)",
+      "Bash(npm test *)"
+    ]
+  }
+}
