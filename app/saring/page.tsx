@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
   DASS21_ITEMS,
@@ -97,7 +98,25 @@ export default function SaringPage() {
   }
 
   return (
-    <main className="min-h-screen bg-sago">
+    <main
+      className="relative min-h-screen bg-sago bg-cover bg-fixed bg-center"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(250, 246, 236, 0.95), rgba(250, 246, 236, 0.95)), url('/terendak-bg.jpg')",
+      }}
+    >
+      {/* PMU logo — very top of the page */}
+      <div className="flex justify-center bg-sago/95 px-4 pt-6">
+        <Image
+          src="/pmu.png"
+          alt="Politeknik Malaysia Mukah"
+          width={480}
+          height={180}
+          priority
+          className="h-14 w-auto sm:h-16"
+        />
+      </div>
+
       {/* Recall-frame banner — pinned above every question group */}
       <div className="sticky top-0 z-20 border-b border-straw bg-sago/95 px-4 py-3 backdrop-blur-sm sm:px-6">
         <div className="mx-auto max-w-2xl">

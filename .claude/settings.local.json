@@ -12,7 +12,22 @@
       "Bash(nslookup -type=AAAA db.lzrufxfifuuaiqwbnevi.supabase.co)",
       "Bash(PG_HOST=\"2406:da1c:4c7:f800::e9ee\" PG_PASSWORD=\"PASSW0RDmukah2026\" node run_migration.js)",
       "Bash(node --experimental-strip-types /private/tmp/claude-501/-Users-azlan-Documents-AI-agent-DASS-21/c1a3cb5f-9030-4883-afbe-fc72fac2256d/scratchpad/test_scoring.ts)",
-      "Bash(npm test *)"
+      "Bash(npm test *)",
+      "Bash(find ~/Desktop ~/Downloads ~/Documents ~/Pictures -maxdepth 3 \\\\\\( -iname \"*pmu*\" -o -iname \"IMG_2*\" \\\\\\) 2>/dev/null)",
+      "Read(//Users/azlan/Desktop/**)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(lsof -i :3000 -sTCP:LISTEN)",
+      "Bash(curl -sf http://localhost:3000)",
+      "Bash(break)",
+      "Read(//private/tmp/**)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(curl -sI http://localhost:3000/pmu.png)",
+      "Bash(curl -sI http://localhost:3000/terendak-bg.jpg)",
+      "Bash(npx --yes playwright@1.48.0 --version)",
+      "Bash(npx --yes playwright@1.48.0 install chromium)",
+      "Bash(node shot.mjs)",
+      "Bash(node debug2.mjs)"
     ]
   }
 }
