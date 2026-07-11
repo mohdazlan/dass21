@@ -27,7 +27,11 @@
       "Bash(npx --yes playwright@1.48.0 --version)",
       "Bash(npx --yes playwright@1.48.0 install chromium)",
       "Bash(node shot.mjs)",
-      "Bash(node debug2.mjs)"
+      "Bash(node debug2.mjs)",
+      "Bash(npx tsc *)",
+      "Bash(lsof -ti:3000)",
+      "Bash(xargs -r kill)",
+      "Bash(node consent-shot.mjs)"
     ]
   }
 }

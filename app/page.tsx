@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import TerendakMotif from "@/components/TerendakMotif";
 import { startSession } from "@/lib/session";
@@ -20,13 +21,31 @@ export default function HomePage() {
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-sago px-4 py-10 sm:px-6">
+    <main
+      className="relative flex min-h-screen flex-col items-center overflow-hidden bg-sago bg-cover bg-fixed bg-center px-4 py-10 sm:px-6"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(250, 246, 236, 0.95), rgba(250, 246, 236, 0.95)), url('/terendak-bg.jpg')",
+      }}
+    >
       <TerendakMotif
         size={640}
         className="pointer-events-none absolute -right-24 -top-16 select-none"
       />
 
-      <div className="relative z-10 w-full max-w-xl text-center">
+      {/* PMU logo — very top of the page */}
+      <div className="relative z-10 mb-6">
+        <Image
+          src="/pmu.png"
+          alt="Politeknik Malaysia Mukah"
+          width={480}
+          height={180}
+          priority
+          className="h-14 w-auto sm:h-16"
+        />
+      </div>
+
+      <div className="relative z-10 flex w-full max-w-xl flex-1 flex-col items-center justify-center text-center">
         <p className="mb-3 font-body text-sm uppercase tracking-[0.2em] text-nipah">
           Saringan Kesihatan Mental
         </p>
