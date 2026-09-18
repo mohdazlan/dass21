@@ -271,6 +271,7 @@ export default async function AdminDashboardPage() {
                       </div>
                       <span className="font-body text-xs text-charcoal/60">
                         {new Date(r.created_at).toLocaleString("ms-MY", {
+                          timeZone: "Asia/Kuala_Lumpur",
                           dateStyle: "medium",
                           timeStyle: "short",
                         })}
@@ -426,6 +427,7 @@ export default async function AdminDashboardPage() {
                     >
                       <td className="py-2 pr-3 text-charcoal/80">
                         {new Date(r.created_at).toLocaleString("ms-MY", {
+                          timeZone: "Asia/Kuala_Lumpur",
                           dateStyle: "medium",
                           timeStyle: "short",
                         })}
