@@ -31,11 +31,6 @@ export default function HomePage() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center overflow-hidden bg-sago px-4 py-10 sm:px-6">
-      {/* Melanau Terendak pattern background image */}
-      <div
-        className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat opacity-20"
-        style={{ backgroundImage: "url('/terendak-bg.jpg')" }}
-      />
       <AbstractBackground />
 
       {/* PMU logo — very top of the page */}
