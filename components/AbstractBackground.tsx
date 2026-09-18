@@ -10,7 +10,7 @@ export default function AbstractBackground({
   showPhotoPattern = true,
 }: AbstractBackgroundProps) {
   return (
-    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-sago">
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-sago">
       {/* Melanau Terendak Authentic Photo Background Pattern */}
       {showPhotoPattern && (
         <div
@@ -20,7 +20,7 @@ export default function AbstractBackground({
       )}
 
       {/* Soft translucent wash over center so forms remain completely readable */}
-      <div className="absolute inset-0 bg-sago/50" />
+      <div className="absolute inset-0 bg-sago/45" />
 
       {/* SVG Abstract Woven Geometric Diamond Grid */}
       <svg

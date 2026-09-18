@@ -100,10 +100,10 @@ export default function SaringPage() {
   }
 
   return (
-    <main className="relative min-h-screen bg-sago">
+    <main className="relative min-h-screen bg-transparent">
       <AbstractBackground />
       {/* PMU logo — very top of the page */}
-      <div className="flex justify-center bg-sago/95 px-4 pt-6">
+      <div className="relative z-10 flex justify-center px-4 pt-6">
         <Image
           src="/pmu.png"
           alt="Politeknik Malaysia Mukah"
@@ -115,7 +115,7 @@ export default function SaringPage() {
       </div>
 
       {/* Recall-frame banner — pinned above every question group */}
-      <div className="sticky top-0 z-20 border-b border-straw bg-sago/95 px-4 py-3 backdrop-blur-sm sm:px-6">
+      <div className="sticky top-0 z-20 border-b border-straw bg-sago/85 px-4 py-3 backdrop-blur-md sm:px-6">
         <div className="mx-auto max-w-2xl">
           <p className="text-center font-body text-sm font-semibold text-charcoal">
             Jawab berdasarkan keadaan anda{" "}
@@ -127,7 +127,7 @@ export default function SaringPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
+      <div className="relative z-10 mx-auto max-w-2xl px-4 py-8 sm:px-6">
         <header className="mb-6 text-center">
           <p className="mb-1 font-body text-xs uppercase tracking-[0.2em] text-nipah">
             SaringMinda

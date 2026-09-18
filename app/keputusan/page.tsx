@@ -138,9 +138,9 @@ export default function KeputusanPage() {
   const offerCounselor = sessionUuid !== null && needsCounselorOffer(scores);
 
   return (
-    <main className="relative min-h-screen bg-sago px-4 py-10 sm:px-6">
+    <main className="relative min-h-screen bg-transparent px-4 py-10 sm:px-6">
       <AbstractBackground />
-      <div className="mx-auto max-w-2xl">
+      <div className="relative z-10 mx-auto max-w-2xl">
         <header className="mb-8 text-center">
           <p className="mb-1 font-body text-xs uppercase tracking-[0.2em] text-nipah">
             SaringMinda

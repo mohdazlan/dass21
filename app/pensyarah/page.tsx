@@ -24,7 +24,7 @@ export default function PensyarahLandingPage() {
   }
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center overflow-hidden bg-sago px-4 py-10 sm:px-6">
+    <main className="relative flex min-h-screen flex-col items-center overflow-hidden bg-transparent px-4 py-10 sm:px-6">
       <AbstractBackground />
 
       {/* PMU logo */}
