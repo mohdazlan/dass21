@@ -13,7 +13,7 @@ import {
   type SeverityBand,
   type Subscale,
 } from "@/lib/scoring";
-import { getScreeningResult, getSessionUuid } from "@/lib/session";
+import { getScreeningResult, getSessionUuid, getSessionUserType } from "@/lib/session";
 import AbstractBackground from "@/components/AbstractBackground";
 
 const CRISIS_CONTACTS = [
@@ -136,10 +136,11 @@ export default function KeputusanPage() {
 
   const worst = worstBand(scores);
   const offerCounselor = sessionUuid !== null && needsCounselorOffer(scores);
+  const userType = getSessionUserType();
 
   return (
     <main className="relative min-h-screen bg-transparent px-4 py-10 sm:px-6">
-      <AbstractBackground />
+      <AbstractBackground variant={userType === "pensyarah" ? "staff" : "student"} />
       <div className="relative z-10 mx-auto max-w-2xl">
         <header className="mb-8 text-center">
           <p className="mb-1 font-body text-xs uppercase tracking-[0.2em] text-nipah">

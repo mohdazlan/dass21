@@ -98,10 +98,11 @@ export default function SaringPage() {
 
     router.push("/keputusan");
   }
+  const userType = getSessionUserType();
 
   return (
     <main className="relative min-h-screen bg-transparent">
-      <AbstractBackground />
+      <AbstractBackground variant={userType === "pensyarah" ? "staff" : "student"} />
       {/* PMU logo — very top of the page */}
       <div className="relative z-10 flex justify-center px-4 pt-6">
         <Image
