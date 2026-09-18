@@ -19,19 +19,20 @@ export default function AbstractBackground({
   if (variant === "staff") {
     return (
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-sago">
-        {/* Soft ambient gradient — professional & subtle */}
+        {/* Warm ambient gradients — visible but professional */}
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              radial-gradient(ellipse at 20% 0%, rgba(201, 150, 46, 0.08) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 100%, rgba(142, 44, 33, 0.06) 0%, transparent 50%)
+              radial-gradient(ellipse at 15% 0%, rgba(201, 150, 46, 0.18) 0%, transparent 55%),
+              radial-gradient(ellipse at 85% 100%, rgba(142, 44, 33, 0.14) 0%, transparent 55%),
+              radial-gradient(ellipse at 50% 50%, rgba(232, 217, 176, 0.12) 0%, transparent 70%)
             `,
           }}
         />
-        {/* Very faint diamond weave — barely visible */}
+        {/* Diamond weave grid — clearly visible */}
         <svg
-          className="absolute inset-0 h-full w-full opacity-[0.06]"
+          className="absolute inset-0 h-full w-full opacity-[0.18]"
           xmlns="http://www.w3.org/2000/svg"
           width="100%"
           height="100%"
@@ -47,8 +48,15 @@ export default function AbstractBackground({
                 d="M 30 0 L 60 30 L 30 60 L 0 30 Z"
                 fill="none"
                 stroke="#C9962E"
-                strokeWidth="0.6"
+                strokeWidth="0.9"
               />
+              <path
+                d="M 30 12 L 48 30 L 30 48 L 12 30 Z"
+                fill="none"
+                stroke="#8E2C21"
+                strokeWidth="0.5"
+              />
+              <circle cx="30" cy="30" r="1.5" fill="#C9962E" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#staff-weave)" />
