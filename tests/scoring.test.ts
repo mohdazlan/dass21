@@ -213,13 +213,14 @@ import {
   type ReferralForm,
 } from "../lib/referral.ts";
 
-test("student referral requires fullName, registrationNo, department, className, phone", () => {
+test("student referral requires fullName, gender, registrationNo, department, className, phone", () => {
   const studentForm: ReferralForm = {
     ...EMPTY_REFERRAL_FORM,
     userType: "pelajar",
   };
   const errors = validateReferral(studentForm);
   assert.ok(errors.fullName);
+  assert.ok(errors.gender);
   assert.ok(errors.registrationNo);
   assert.ok(errors.department);
   assert.ok(errors.className);
@@ -230,6 +231,9 @@ test("student referral passes when all required student fields are filled", () =
   const validStudentForm: ReferralForm = {
     userType: "pelajar",
     fullName: "Ahmad Bin Razak",
+    gender: "Lelaki",
+    serviceGroup: "",
+    position: "",
     registrationNo: "21DKA23F1001",
     staffNo: "",
     phone: "013-1234567",
@@ -245,26 +249,49 @@ test("student referral passes when all required student fields are filled", () =
   const norm = normaliseReferral(validStudentForm);
   assert.equal(norm.user_type, "pelajar");
   assert.equal(norm.full_name, "Ahmad Bin Razak");
+  assert.equal(norm.gender, "Lelaki");
   assert.equal(norm.registration_no, "21DKA23F1001");
   assert.equal(norm.class_name, "DKA 3A");
+  assert.equal(norm.service_group, null);
+  assert.equal(norm.position, null);
   assert.equal(norm.staff_no, null);
 });
 
-test("lecturer referral does NOT require registrationNo or className/semester", () => {
+test("lecturer referral requires serviceGroup and position, but does NOT require registrationNo or className", () => {
+  const incompleteLecturerForm: ReferralForm = {
+    ...EMPTY_REFERRAL_FORM,
+    userType: "pensyarah",
+    fullName: "Dr. Siti Aminah",
+    gender: "Perempuan",
+    department: "Jabatan Pengajian Am (JPA)",
+    phone: "012-3456789",
+  };
+  const errors = validateReferral(incompleteLecturerForm);
+  assert.ok(errors.serviceGroup);
+  assert.ok(errors.position);
+  assert.equal(errors.registrationNo, undefined);
+  assert.equal(errors.className, undefined);
+
   const lecturerForm: ReferralForm = {
     ...EMPTY_REFERRAL_FORM,
     userType: "pensyarah",
     fullName: "Dr. Siti Aminah",
+    gender: "Perempuan",
+    serviceGroup: "Pengurusan & Professional",
+    position: "DH",
     department: "Jabatan Pengajian Am (JPA)",
     phone: "012-3456789",
     staffNo: "S10023",
   };
-  const errors = validateReferral(lecturerForm);
-  assert.deepEqual(errors, {});
+  const validErrors = validateReferral(lecturerForm);
+  assert.deepEqual(validErrors, {});
 
   const norm = normaliseReferral(lecturerForm);
   assert.equal(norm.user_type, "pensyarah");
   assert.equal(norm.full_name, "Dr. Siti Aminah");
+  assert.equal(norm.gender, "Perempuan");
+  assert.equal(norm.service_group, "Pengurusan & Professional");
+  assert.equal(norm.position, "DH");
   assert.equal(norm.staff_no, "S10023");
   assert.equal(norm.registration_no, null);
   assert.equal(norm.class_name, null); // No semester/class value

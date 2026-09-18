@@ -11,7 +11,7 @@ import {
 } from "@/lib/dass21";
 import { scoreDass21, type AnswerMap } from "@/lib/scoring";
 import { getSupabase, saveScreening } from "@/lib/supabase";
-import { getSessionUuid, setScreeningResult } from "@/lib/session";
+import { getSessionUuid, getSessionUserType, setScreeningResult } from "@/lib/session";
 import AbstractBackground from "@/components/AbstractBackground";
 
 const TOTAL_ITEMS = DASS21_ITEMS.length;
@@ -90,10 +90,11 @@ export default function SaringPage() {
     setSubmitting(true);
 
     const scores = scoreDass21(answers);
+    const userType = getSessionUserType();
     // Results travel in memory only — never URL params or storage.
     setScreeningResult(scores);
     // Best-effort anonymous persist; the respondent sees results regardless.
-    await saveScreening(sessionUuid, answers, scores);
+    await saveScreening(sessionUuid, answers, scores, userType);
 
     router.push("/keputusan");
   }

@@ -64,6 +64,31 @@ export const STAFF_DEPARTMENTS_MS = [
   "Lain-lain",
 ] as const;
 
+/**
+ * Gender options.
+ */
+export const GENDER_OPTIONS_MS = ["Lelaki", "Perempuan"] as const;
+export type Gender = (typeof GENDER_OPTIONS_MS)[number];
+
+/**
+ * Service group options for staff / pensyarah.
+ */
+export const SERVICE_GROUPS_MS = [
+  "Pengurusan Tertinggi",
+  "Pengurusan & Professional",
+  "Pelaksana",
+] as const;
+export type ServiceGroup = (typeof SERVICE_GROUPS_MS)[number];
+
+/**
+ * Position / scheme options for staff / pensyarah.
+ */
+export const POSITIONS_MS = [
+  "DH",
+  "Sokongan Akademik",
+] as const;
+export type Position = (typeof POSITIONS_MS)[number];
+
 /** Optional "bila sesuai dihubungi" choices. */
 export const CONTACT_WINDOWS_MS = [
   "Pagi (8:00 – 12:00)",
@@ -80,6 +105,9 @@ export const REFERRAL_CONSENT_MS =
 export interface ReferralForm {
   userType: RespondentType;
   fullName: string;
+  gender: string;
+  serviceGroup: string;
+  position: string;
   registrationNo: string;
   staffNo: string;
   phone: string;
@@ -93,6 +121,9 @@ export interface ReferralForm {
 export const EMPTY_REFERRAL_FORM: ReferralForm = {
   userType: "pelajar",
   fullName: "",
+  gender: "",
+  serviceGroup: "",
+  position: "",
   registrationNo: "",
   staffNo: "",
   phone: "",
@@ -113,13 +144,14 @@ function digitCount(value: string): number {
 
 /**
  * Validates the required fields plus the optional e-mail.
- * For students: requires fullName, registrationNo, department, className, phone.
- * For lecturers/staff: requires fullName, department, phone (no className/semester required).
+ * For students: requires fullName, gender, registrationNo, department, className, phone.
+ * For lecturers/staff: requires fullName, gender, serviceGroup, position, department, phone (no className/semester required).
  */
 export function validateReferral(form: ReferralForm): ReferralErrors {
   const errors: ReferralErrors = {};
 
   if (!form.fullName.trim()) errors.fullName = "Sila isi nama penuh.";
+  if (!form.gender.trim()) errors.gender = "Sila pilih jantina.";
   if (!form.department.trim()) errors.department = "Sila pilih jabatan / unit.";
 
   if (form.userType === "pelajar") {
@@ -127,6 +159,11 @@ export function validateReferral(form: ReferralForm): ReferralErrors {
       errors.registrationNo = "Sila isi no. pendaftaran.";
     if (!form.className.trim())
       errors.className = "Sila isi kelas / semester.";
+  } else if (form.userType === "pensyarah") {
+    if (!form.serviceGroup.trim())
+      errors.serviceGroup = "Sila pilih kumpulan perkhidmatan.";
+    if (!form.position.trim())
+      errors.position = "Sila pilih jawatan.";
   }
 
   if (!form.phone.trim()) {
@@ -150,6 +187,9 @@ export function normaliseReferral(form: ReferralForm) {
   return {
     user_type: form.userType,
     full_name: clean(form.fullName),
+    gender: clean(form.gender),
+    service_group: isLecturer ? clean(form.serviceGroup) : null,
+    position: isLecturer ? clean(form.position) : null,
     registration_no: isLecturer ? null : clean(form.registrationNo),
     staff_no: isLecturer ? clean(form.staffNo) : null,
     phone: clean(form.phone),

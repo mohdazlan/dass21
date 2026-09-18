@@ -5,6 +5,9 @@ import {
   CONTACT_WINDOWS_MS,
   DEPARTMENTS_MS,
   STAFF_DEPARTMENTS_MS,
+  GENDER_OPTIONS_MS,
+  SERVICE_GROUPS_MS,
+  POSITIONS_MS,
   EMPTY_REFERRAL_FORM,
   REFERRAL_CONSENT_MS,
   validateReferral,
@@ -109,6 +112,8 @@ export default function CounselorReferral({
       className: "",
       registrationNo: "",
       staffNo: "",
+      serviceGroup: "",
+      position: "",
     }));
     setErrors({});
   }
@@ -263,112 +268,243 @@ export default function CounselorReferral({
             </div>
           </div>
 
-          <Field
-            id="fullName"
-            label="Nama Penuh"
-            value={form.fullName}
-            error={errors.fullName}
-            onChange={(v) => update("fullName", v)}
-            required
-            autoComplete="name"
-          />
-
-          {isLecturer ? (
-            /* Lecturer / Staff Fields (No semester / class value) */
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field
-                id="staffNo"
-                label="No. Staf / Pekerja (pilihan)"
-                value={form.staffNo}
-                error={errors.staffNo}
-                onChange={(v) => update("staffNo", v)}
-                placeholder="Contoh: S10234"
-              />
-              <Field
-                id="phone"
-                label="No. Telefon"
-                value={form.phone}
-                error={errors.phone}
-                onChange={(v) => update("phone", v)}
-                required
-                type="tel"
-                placeholder="Contoh: 013-1234567"
-                autoComplete="tel"
-              />
-            </div>
-          ) : (
-            /* Student Fields (Includes registration number & class/semester) */
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field
-                id="registrationNo"
-                label="No. Pendaftaran"
-                value={form.registrationNo}
-                error={errors.registrationNo}
-                onChange={(v) => update("registrationNo", v)}
-                required
-                placeholder="Contoh: 21DKA23F1001"
-              />
-              <Field
-                id="phone"
-                label="No. Telefon"
-                value={form.phone}
-                error={errors.phone}
-                onChange={(v) => update("phone", v)}
-                required
-                type="tel"
-                placeholder="Contoh: 013-1234567"
-                autoComplete="tel"
-              />
-            </div>
-          )}
-
-          <div className={isLecturer ? "space-y-4" : "grid gap-4 sm:grid-cols-2"}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field
+              id="fullName"
+              label="Nama Penuh"
+              value={form.fullName}
+              error={errors.fullName}
+              onChange={(v) => update("fullName", v)}
+              required
+              autoComplete="name"
+            />
             <div>
-              <label htmlFor="department" className={LABEL_CLASS}>
-                {isLecturer ? "Jabatan / Unit" : "Jabatan"}
-                <span className="text-lacquer"> *</span>
+              <label htmlFor="gender" className={LABEL_CLASS}>
+                Jantina <span className="text-lacquer">*</span>
               </label>
               <select
-                id="department"
-                name="department"
-                value={form.department}
-                onChange={(e) => update("department", e.target.value)}
+                id="gender"
+                name="gender"
+                value={form.gender}
+                onChange={(e) => update("gender", e.target.value)}
                 aria-required
-                aria-invalid={errors.department ? true : undefined}
-                aria-describedby={
-                  errors.department ? "department-error" : undefined
-                }
+                aria-invalid={errors.gender ? true : undefined}
+                aria-describedby={errors.gender ? "gender-error" : undefined}
                 className={FIELD_CLASS}
               >
-                <option value="">— Sila pilih —</option>
-                {departmentOptions.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
+                <option value="">— Sila pilih jantina —</option>
+                {GENDER_OPTIONS_MS.map((g) => (
+                  <option key={g} value={g}>
+                    {g}
                   </option>
                 ))}
               </select>
-              {errors.department && (
-                <p
-                  id="department-error"
-                  className="mt-1 font-body text-xs text-lacquer"
-                >
-                  {errors.department}
+              {errors.gender && (
+                <p id="gender-error" className="mt-1 font-body text-xs text-lacquer">
+                  {errors.gender}
                 </p>
               )}
             </div>
-
-            {!isLecturer && (
-              <Field
-                id="className"
-                label="Kelas / Semester"
-                value={form.className}
-                error={errors.className}
-                onChange={(v) => update("className", v)}
-                required
-                placeholder="Contoh: DKA 3A / Sem 3"
-              />
-            )}
           </div>
+
+          {isLecturer ? (
+            /* Lecturer / Staff Fields (No semester / class value) */
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  id="staffNo"
+                  label="No. Staf / Pekerja (pilihan)"
+                  value={form.staffNo}
+                  error={errors.staffNo}
+                  onChange={(v) => update("staffNo", v)}
+                  placeholder="Contoh: S10234"
+                />
+                <Field
+                  id="phone"
+                  label="No. Telefon"
+                  value={form.phone}
+                  error={errors.phone}
+                  onChange={(v) => update("phone", v)}
+                  required
+                  type="tel"
+                  placeholder="Contoh: 013-1234567"
+                  autoComplete="tel"
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="serviceGroup" className={LABEL_CLASS}>
+                    Kumpulan Perkhidmatan <span className="text-lacquer">*</span>
+                  </label>
+                  <select
+                    id="serviceGroup"
+                    name="serviceGroup"
+                    value={form.serviceGroup}
+                    onChange={(e) => update("serviceGroup", e.target.value)}
+                    aria-required
+                    aria-invalid={errors.serviceGroup ? true : undefined}
+                    aria-describedby={
+                      errors.serviceGroup ? "serviceGroup-error" : undefined
+                    }
+                    className={FIELD_CLASS}
+                  >
+                    <option value="">— Sila pilih kumpulan perkhidmatan —</option>
+                    {SERVICE_GROUPS_MS.map((sg) => (
+                      <option key={sg} value={sg}>
+                        {sg}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.serviceGroup && (
+                    <p
+                      id="serviceGroup-error"
+                      className="mt-1 font-body text-xs text-lacquer"
+                    >
+                      {errors.serviceGroup}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="position" className={LABEL_CLASS}>
+                    Jawatan <span className="text-lacquer">*</span>
+                  </label>
+                  <select
+                    id="position"
+                    name="position"
+                    value={form.position}
+                    onChange={(e) => update("position", e.target.value)}
+                    aria-required
+                    aria-invalid={errors.position ? true : undefined}
+                    aria-describedby={
+                      errors.position ? "position-error" : undefined
+                    }
+                    className={FIELD_CLASS}
+                  >
+                    <option value="">— Sila pilih jawatan —</option>
+                    {POSITIONS_MS.map((pos) => (
+                      <option key={pos} value={pos}>
+                        {pos}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.position && (
+                    <p
+                      id="position-error"
+                      className="mt-1 font-body text-xs text-lacquer"
+                    >
+                      {errors.position}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="department" className={LABEL_CLASS}>
+                  Jabatan / Unit <span className="text-lacquer">*</span>
+                </label>
+                <select
+                  id="department"
+                  name="department"
+                  value={form.department}
+                  onChange={(e) => update("department", e.target.value)}
+                  aria-required
+                  aria-invalid={errors.department ? true : undefined}
+                  aria-describedby={
+                    errors.department ? "department-error" : undefined
+                  }
+                  className={FIELD_CLASS}
+                >
+                  <option value="">— Sila pilih —</option>
+                  {departmentOptions.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
+                </select>
+                {errors.department && (
+                  <p
+                    id="department-error"
+                    className="mt-1 font-body text-xs text-lacquer"
+                  >
+                    {errors.department}
+                  </p>
+                )}
+              </div>
+            </>
+          ) : (
+            /* Student Fields (Includes registration number & class/semester) */
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field
+                  id="registrationNo"
+                  label="No. Pendaftaran"
+                  value={form.registrationNo}
+                  error={errors.registrationNo}
+                  onChange={(v) => update("registrationNo", v)}
+                  required
+                  placeholder="Contoh: 21DKA23F1001"
+                />
+                <Field
+                  id="phone"
+                  label="No. Telefon"
+                  value={form.phone}
+                  error={errors.phone}
+                  onChange={(v) => update("phone", v)}
+                  required
+                  type="tel"
+                  placeholder="Contoh: 013-1234567"
+                  autoComplete="tel"
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="department" className={LABEL_CLASS}>
+                    Jabatan <span className="text-lacquer">*</span>
+                  </label>
+                  <select
+                    id="department"
+                    name="department"
+                    value={form.department}
+                    onChange={(e) => update("department", e.target.value)}
+                    aria-required
+                    aria-invalid={errors.department ? true : undefined}
+                    aria-describedby={
+                      errors.department ? "department-error" : undefined
+                    }
+                    className={FIELD_CLASS}
+                  >
+                    <option value="">— Sila pilih —</option>
+                    {departmentOptions.map((d) => (
+                      <option key={d} value={d}>
+                        {d}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.department && (
+                    <p
+                      id="department-error"
+                      className="mt-1 font-body text-xs text-lacquer"
+                    >
+                      {errors.department}
+                    </p>
+                  )}
+                </div>
+
+                <Field
+                  id="className"
+                  label="Kelas / Semester"
+                  value={form.className}
+                  error={errors.className}
+                  onChange={(v) => update("className", v)}
+                  required
+                  placeholder="Contoh: DKA 3A / Sem 3"
+                />
+              </div>
+            </>
+          )}
 
           <Field
             id="email"

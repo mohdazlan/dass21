@@ -38,12 +38,11 @@ The schema lives in `supabase/migrations/`. Apply the files **in numbered order*
 ### Option A: SQL Editor (Quickest for Testing)
 
 1. In Supabase Dashboard, go to **SQL Editor**
-2. Click **New Query**
-3. Open `supabase/migrations/001_init.sql` locally and copy the entire contents
-4. Paste into the SQL Editor
-5. Click **Run**
-6. Verify: you should see green checkmarks for all statements
-7. Repeat steps 2–6 for `supabase/migrations/002_counseling_referrals.sql`
+   - `supabase/migrations/001_init.sql`
+   - `supabase/migrations/002_counseling_referrals.sql`
+   - `supabase/migrations/003_add_lecturer_support.sql`
+   - `supabase/migrations/004_add_demographics.sql`
+   - `supabase/migrations/005_add_user_type_to_screening_results.sql`
 
 ### Option B: Supabase CLI (Recommended for Production)
 

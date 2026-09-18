@@ -23,7 +23,8 @@ export function getSupabase(): SupabaseClient | null {
 export async function saveScreening(
   sessionUuid: string,
   answers: AnswerMap,
-  scores: ScreeningScores
+  scores: ScreeningScores,
+  userType: import("./referral").RespondentType = "pelajar"
 ): Promise<boolean> {
   const supabase = getSupabase();
   if (!supabase) return false;
@@ -40,6 +41,7 @@ export async function saveScreening(
 
     const { error: resErr } = await supabase.from("screening_results").insert({
       session_uuid: sessionUuid,
+      user_type: userType,
       stress_raw: scores.stressRaw,
       anxiety_raw: scores.anxietyRaw,
       depression_raw: scores.depressionRaw,

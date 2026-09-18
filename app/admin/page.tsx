@@ -29,6 +29,9 @@ interface ReferralRow {
   interested: boolean;
   user_type?: "pelajar" | "pensyarah" | null;
   full_name: string | null;
+  gender?: string | null;
+  service_group?: string | null;
+  position?: string | null;
   registration_no: string | null;
   staff_no?: string | null;
   phone: string | null;
@@ -143,10 +146,11 @@ export default async function AdminDashboardPage() {
   return (
     <main className="min-h-screen bg-sago px-4 py-10 sm:px-6">
       <div className="mx-auto max-w-5xl">
-        <header className="mb-8 flex items-center justify-between gap-4">
+        {/* Top Header */}
+        <header className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <p className="mb-1 font-body text-xs uppercase tracking-[0.2em] text-nipah">
-              SaringMinda
+              SaringMinda · Politeknik Mukah
             </p>
             <h1 className="font-display text-3xl font-bold text-charcoal">
               Dashboard Kaunselor
@@ -157,6 +161,23 @@ export default async function AdminDashboardPage() {
           </div>
           <LogoutButton />
         </header>
+
+        {/* Tab Navigation */}
+        <nav aria-label="Dashboard Navigation" className="mb-8 flex gap-2 border-b border-straw pb-3">
+          <Link
+            href="/admin"
+            aria-current="page"
+            className="rounded-md bg-nipah px-4 py-2 font-body text-sm font-semibold text-white shadow-sm"
+          >
+            Dashboard Utama (Semua / Pelajar)
+          </Link>
+          <Link
+            href="/admin/pensyarah"
+            className="rounded-md px-4 py-2 font-body text-sm font-medium text-charcoal/70 transition hover:bg-straw/50 hover:text-charcoal"
+          >
+            Dashboard Pensyarah &amp; Staf
+          </Link>
+        </nav>
 
         <section className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           <div className="rounded-lg border border-straw bg-white/70 p-4">
@@ -257,11 +278,27 @@ export default async function AdminDashboardPage() {
                     </div>
 
                     <dl className="grid gap-x-6 gap-y-1 font-body text-sm text-charcoal/90 sm:grid-cols-2">
+                      <div className="flex gap-2">
+                        <dt className="text-charcoal/60">Jantina:</dt>
+                        <dd>{r.gender || "—"}</dd>
+                      </div>
                       {isLecturer ? (
                         <>
                           <div className="flex gap-2">
                             <dt className="text-charcoal/60">No. Staf:</dt>
                             <dd>{r.staff_no || "—"}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="text-charcoal/60">Kumpulan:</dt>
+                            <dd>{r.service_group || "—"}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="text-charcoal/60">Jawatan:</dt>
+                            <dd>{r.position || "—"}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="text-charcoal/60">Jabatan / Unit:</dt>
+                            <dd>{r.department || "—"}</dd>
                           </div>
                           <div className="flex gap-2">
                             <dt className="text-charcoal/60">Telefon:</dt>
@@ -273,10 +310,6 @@ export default async function AdminDashboardPage() {
                                 {r.phone}
                               </a>
                             </dd>
-                          </div>
-                          <div className="flex gap-2 sm:col-span-2">
-                            <dt className="text-charcoal/60">Jabatan / Unit:</dt>
-                            <dd>{r.department || "—"}</dd>
                           </div>
                         </>
                       ) : (
@@ -286,6 +319,14 @@ export default async function AdminDashboardPage() {
                             <dd>{r.registration_no || "—"}</dd>
                           </div>
                           <div className="flex gap-2">
+                            <dt className="text-charcoal/60">Jabatan:</dt>
+                            <dd>{r.department || "—"}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="text-charcoal/60">Kelas / Semester:</dt>
+                            <dd>{r.class_name || "—"}</dd>
+                          </div>
+                          <div className="flex gap-2">
                             <dt className="text-charcoal/60">Telefon:</dt>
                             <dd>
                               <a
@@ -295,14 +336,6 @@ export default async function AdminDashboardPage() {
                                 {r.phone}
                               </a>
                             </dd>
-                          </div>
-                          <div className="flex gap-2">
-                            <dt className="text-charcoal/60">Jabatan:</dt>
-                            <dd>{r.department || "—"}</dd>
-                          </div>
-                          <div className="flex gap-2">
-                            <dt className="text-charcoal/60">Kelas / Semester:</dt>
-                            <dd>{r.class_name || "—"}</dd>
                           </div>
                         </>
                       )}

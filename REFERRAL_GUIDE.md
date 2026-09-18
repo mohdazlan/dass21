@@ -37,7 +37,10 @@ Setiap kad dalam senarai menunjukkan:
 | Field | Deskripsi |
 |-------|-----------|
 | **Kategori & Nama** | Nama penuh responden bersama badge `Pelajar` atau `Pensyarah / Staf` (dan badge `Krisis` jika berkenaan) |
+| **Jantina** | Jantina responden (`Lelaki` / `Perempuan`) |
 | **No. Pendaftaran / No. Staf** | Nombor pendaftaran (pelajar) atau No. Staf/Pekerja (pensyarah) |
+| **Kumpulan Perkhidmatan** | Kumpulan perkhidmatan staf (`Pengurusan Tertinggi`, `Pengurusan & Professional`, `Pelaksana`) |
+| **Jawatan** | Jawatan / skim staf (`DH`, `Sokongan Akademik`) |
 | **Kelas / Semester** | Kelas & semester (hanya dipaparkan untuk pelajar) |
 | **Jabatan / Unit** | Jabatan atau unit pentadbiran/akademik |
 | **Telefon** | Nombor telefon (klik untuk membuat panggilan terus) |
