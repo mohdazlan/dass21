@@ -111,12 +111,13 @@ export default async function AdminPensyarahDashboardPage() {
   }
 
   const [
-    { data: allResults, error: resultsError },
+    { data: staffResultsData, error: resultsError },
     { data: referrals, error: referralsError },
   ] = await Promise.all([
     supabase
       .from("screening_results")
       .select("*")
+      .eq("user_type", "pensyarah")
       .order("created_at", { ascending: false })
       .limit(600)
       .returns<ScreeningResultRow[]>(),
@@ -129,23 +130,19 @@ export default async function AdminPensyarahDashboardPage() {
       .returns<ReferralRow[]>(),
   ]);
 
-  // Filter screening results for lecturer/staff if user_type column is present
-  const results = allResults ?? [];
-  const staffResults = results.filter((r) => r.user_type === "pensyarah");
-  // If user_type isn't set on historical records, show staffResults or fallback
-  const displayedResults = staffResults.length > 0 ? staffResults : results;
-
+  const staffResults = staffResultsData ?? [];
   const staffReferrals = referrals ?? [];
   const interestedRows = staffReferrals.filter((r) => r.interested);
   const declinedCount = staffReferrals.length - interestedRows.length;
 
-  const crisisCount = interestedRows.filter((r) => r.crisis_flag).length;
+  const totalStaffScreenings = staffResults.length;
+  const staffCrisisCount = staffResults.filter((r) => r.crisis_flag).length;
   const elevated = (band: SeverityBand) => band !== "normal";
 
   const elevatedCounts = {
-    stress: interestedRows.filter((r) => elevated(r.stress_band)).length,
-    anxiety: interestedRows.filter((r) => elevated(r.anxiety_band)).length,
-    depression: interestedRows.filter((r) => elevated(r.depression_band)).length,
+    stress: staffResults.filter((r) => elevated(r.stress_band)).length,
+    anxiety: staffResults.filter((r) => elevated(r.anxiety_band)).length,
+    depression: staffResults.filter((r) => elevated(r.depression_band)).length,
   };
 
   // Demographic breakdowns for interested staff
@@ -209,37 +206,37 @@ export default async function AdminPensyarahDashboardPage() {
         <section className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           <div className="rounded-lg border border-straw bg-white/70 p-4 shadow-sm">
             <p className="font-body text-xs text-charcoal/60">
-              Permohonan Staf
+              Saringan Staf
             </p>
             <p className="font-display text-3xl font-bold text-charcoal">
-              {interestedRows.length}
+              {totalStaffScreenings}
             </p>
             <p className="font-body text-xs text-charcoal/50">
-              {declinedCount} menolak tawaran
+              Keseluruhan staf
             </p>
           </div>
           <div className="rounded-lg border border-lacquer/40 bg-white/70 p-4 shadow-sm">
             <p className="font-body text-xs text-charcoal/60">Bendera Krisis</p>
             <p className="font-display text-3xl font-bold text-lacquer">
-              {crisisCount}
+              {staffCrisisCount}
             </p>
             <p className="font-body text-xs text-charcoal/50">Perhatian segera</p>
           </div>
           <div className="rounded-lg border border-nipah/50 bg-white/70 p-4 shadow-sm">
             <p className="font-body text-xs text-charcoal/60">
-              Skim DH (Pensyarah)
+              Mohon Temujanji
             </p>
             <p className="font-display text-3xl font-bold text-nipah">
-              {positionCounts["DH"] || 0}
+              {interestedRows.length}
             </p>
             <p className="font-body text-xs text-charcoal/50">
-              {positionCounts["Sokongan Akademik"] || 0} Sokongan
+              {declinedCount} tolak tawaran
             </p>
           </div>
           {(["stress", "anxiety", "depression"] as const).map((sub) => (
             <div key={sub} className="rounded-lg border border-straw bg-white/70 p-4 shadow-sm">
               <p className="font-body text-xs text-charcoal/60">
-                {SUBSCALE_LABEL_MS[sub]} (bukan normal)
+                {SUBSCALE_LABEL_MS[sub]} (staf)
               </p>
               <p className="font-display text-3xl font-bold text-charcoal">
                 {elevatedCounts[sub]}
@@ -468,18 +465,26 @@ export default async function AdminPensyarahDashboardPage() {
         {/* Recent Screenings Table */}
         <section className="rounded-lg border border-straw bg-white/70 p-6 shadow-sm">
           <h2 className="mb-4 font-display text-xl font-bold text-charcoal">
-            Saringan Terkini
-            {displayedResults.length > 0 ? ` (${displayedResults.length})` : ""}
+            Saringan Terkini Pensyarah &amp; Staf
+            {staffResults.length > 0 ? ` (${staffResults.length})` : ""}
           </h2>
 
           {resultsError ? (
             <p className="font-body text-sm text-lacquer">
               Ralat memuatkan data: {resultsError.message}
             </p>
-          ) : displayedResults.length === 0 ? (
-            <p className="font-body text-sm text-charcoal/70">
-              Tiada saringan direkodkan setakat ini.
-            </p>
+          ) : staffResults.length === 0 ? (
+            <div className="rounded-lg border border-straw/60 bg-sago/40 p-6 text-center">
+              <p className="font-body text-sm font-medium text-charcoal">
+                Tiada rekod saringan pensyarah atau staf direkodkan setakat ini.
+              </p>
+              <p className="mt-1 font-body text-xs text-charcoal/60">
+                Pensyarah dan staf boleh menjawab saringan di pautan{" "}
+                <Link href="/pensyarah" className="text-nipah underline font-medium">
+                  /pensyarah
+                </Link>.
+              </p>
+            </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full font-body text-sm">
@@ -494,7 +499,7 @@ export default async function AdminPensyarahDashboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayedResults.map((r) => (
+                  {staffResults.map((r) => (
                     <tr
                       key={r.id}
                       className={`border-b border-straw/60 ${
@@ -508,8 +513,8 @@ export default async function AdminPensyarahDashboardPage() {
                         })}
                       </td>
                       <td className="py-2 pr-3">
-                        <span className="rounded bg-nipah/10 px-2 py-0.5 text-xs font-medium text-nipah">
-                          {r.user_type === "pensyarah" ? "Pensyarah / Staf" : "Pelajar / Umum"}
+                        <span className="rounded bg-nipah/10 px-2 py-0.5 text-xs font-semibold text-nipah">
+                          Pensyarah / Staf
                         </span>
                       </td>
                       <td className={`py-2 pr-3 ${bandClass(r.stress_band)}`}>
