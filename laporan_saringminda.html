@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaringMinda — Laporan Eksekutif</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ───────────────────── DESIGN TOKENS ───────────────────── */
+    :root {
+      --nipah: #C9962E;
+      --straw: #E8D9B0;
+      --lacquer: #8E2C21;
+      --charcoal: #241F1C;
+      --sago: #FAF6EC;
+      --white: #FFFFFF;
+      --display: 'Playfair Display', 'Times New Roman', Georgia, serif;
+      --body: 'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    /* ───────────────────── RESET & BASE ───────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--body);
+      color: var(--charcoal);
+      background: var(--sago);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ───────────────────── PRINT / PDF ───────────────────── */
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm 22mm;
+      margin: 0 auto 2mm;
+      background: var(--sago);
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+
+    @media print {
+      body { background: none; }
+      .page { margin: 0; box-shadow: none; }
+    }
+
+    @media screen {
+      .page {
+        box-shadow: 0 4px 24px rgba(36,31,28,0.08);
+        margin-bottom: 16px;
+        border-radius: 2px;
+      }
+      body { padding: 16px 0; }
+    }
+
+    /* ───────────────────── TYPOGRAPHY ───────────────────── */
+    h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; line-height: 1.25; }
+    h1 { font-size: 2.6rem; }
+    h2 { font-size: 1.75rem; margin-bottom: 0.6em; }
+    h3 { font-size: 1.25rem; margin-bottom: 0.4em; }
+    p { margin-bottom: 0.9em; }
+    .small { font-size: 0.85rem; }
+    .xs { font-size: 0.75rem; }
+    .kicker {
+      font-family: var(--body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--nipah);
+      margin-bottom: 0.4em;
+    }
+    .text-nipah { color: var(--nipah); }
+    .text-lacquer { color: var(--lacquer); }
+    .text-muted { color: rgba(36,31,28,0.6); }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+
+    /* ───────────────────── LAYOUT UTILITIES ───────────────────── */
+    .mb-1 { margin-bottom: 8px; }
+    .mb-2 { margin-bottom: 16px; }
+    .mb-3 { margin-bottom: 24px; }
+    .mt-1 { margin-top: 8px; }
+    .mt-2 { margin-top: 16px; }
+    .mt-3 { margin-top: 24px; }
+
+    /* ───────────────────── DECORATIVE ELEMENTS ───────────────────── */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: var(--nipah);
+      border: none;
+      margin: 20px 0;
+    }
+
+    .band-strip {
+      height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--nipah) 0, var(--nipah) 14px,
+        var(--straw) 14px, var(--straw) 28px,
+        var(--lacquer) 28px, var(--lacquer) 42px,
+        var(--straw) 42px, var(--straw) 56px
+      );
+      border-radius: 3px;
+      margin: 24px 0;
+    }
+
+    /* ───────────────────── CARDS & BOXES ───────────────────── */
+    .card {
+      border: 1px solid var(--straw);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(255,255,255,0.6);
+    }
+    .card-accent {
+      border-color: var(--nipah);
+      border-width: 2px;
+    }
+    .card-lacquer {
+      border-color: var(--lacquer);
+      border-width: 2px;
+      background: rgba(142,44,33,0.03);
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 18px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--straw);
+      background: rgba(255,255,255,0.5);
+    }
+    .stat-number {
+      font-family: var(--display);
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: rgba(36,31,28,0.65);
+      line-height: 1.3;
+    }
+
+    .pullquote {
+      font-family: var(--display);
+      font-size: 1.3rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--charcoal);
+      border-left: 4px solid var(--nipah);
+      padding: 12px 0 12px 24px;
+      margin: 24px 0;
+    }
+    .pullquote cite {
+      display: block;
+      font-family: var(--body);
+      font-size: 0.78rem;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--nipah);
+      margin-top: 8px;
+    }
+
+    /* ───────────────────── GRIDS ───────────────────── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+    /* ───────────────────── IMAGES ───────────────────── */
+    .page-image {
+      width: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    /* ───────────────────── SEVERITY GAUGE ───────────────────── */
+    .gauge-bar {
+      display: flex;
+      height: 18px;
+      border-radius: 9px;
+      overflow: hidden;
+      border: 1px solid var(--straw);
+    }
+    .gauge-seg { height: 100%; }
+    .gauge-normal { background: var(--straw); }
+    .gauge-ringan { background: rgba(201,150,46,0.4); }
+    .gauge-sederhana { background: var(--nipah); }
+    .gauge-teruk { background: rgba(142,44,33,0.6); }
+    .gauge-sangat { background: var(--lacquer); }
+
+    .gauge-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 0.6rem;
+      color: rgba(36,31,28,0.5);
+    }
+
+    /* ───────────────────── TABLES ───────────────────── */
+    .clean-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .clean-table th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--charcoal);
+      border-bottom: 2px solid var(--nipah);
+      padding: 8px 10px;
+    }
+    .clean-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(232,217,176,0.5);
+      vertical-align: top;
+    }
+    .clean-table tr:last-child td { border-bottom: none; }
+
+    /* ───────────────────── FLOW STEPS ───────────────────── */
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .flow-num {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--nipah);
+      color: var(--white);
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--nipah);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .icon-circle.straw { background: var(--straw); color: var(--charcoal); }
+    .icon-circle.lacquer { background: var(--lacquer); }
+
+    /* ───────────────────── PAGE-SPECIFIC ───────────────────── */
+    .cover-page {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 24mm;
+      min-height: 297mm;
+    }
+    .cover-page h1 {
+      font-size: 3.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .cover-subtitle {
+      font-family: var(--body);
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(36,31,28,0.7);
+      margin-bottom: 32px;
+    }
+    .cover-badge {
+      display: inline-block;
+      border: 2px solid var(--nipah);
+      border-radius: 999px;
+      padding: 6px 24px;
+      font-family: var(--body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--nipah);
+    }
+
+    .footer-line {
+      position: absolute;
+      bottom: 20mm;
+      left: 22mm;
+      right: 22mm;
+      border-top: 1px solid var(--straw);
+      padding-top: 8px;
+      font-size: 0.6rem;
+      color: rgba(36,31,28,0.35);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Checkmark list */
+    .check-list { list-style: none; }
+    .check-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 10px;
+      font-size: 0.88rem;
+    }
+    .check-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-weight: 700;
+      color: var(--nipah);
+      font-size: 1rem;
+    }
+
+    /* Tags */
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 0.68rem;
+      font-weight: 600;
+    }
+    .tag-gold { background: rgba(201,150,46,0.15); color: var(--nipah); }
+    .tag-red { background: rgba(142,44,33,0.1); color: var(--lacquer); }
+    .tag-dark { background: rgba(36,31,28,0.08); color: var(--charcoal); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 1 — KULIT DEPAN (COVER)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page cover-page">
+  <div style="margin-bottom: 24px;">
+    <img src="public/report/cover_art.jpg" alt="Terendak — Identiti Visual SaringMinda" style="width: 220px; height: auto; border-radius: 50%; border: 3px solid var(--nipah); box-shadow: 0 8px 32px rgba(201,150,46,0.18);">
+  </div>
+  <p class="kicker" style="margin-bottom: 12px;">Laporan Eksekutif</p>
+  <h1 style="color: var(--charcoal);">SaringMinda</h1>
+  <p class="cover-subtitle" style="max-width: 380px; margin-left: auto; margin-right: auto;">
+    Platform Saringan Kesihatan Mental DASS-21<br>
+    untuk Warga Politeknik Mukah
+  </p>
+  <div class="band-strip" style="width: 180px; margin-left: auto; margin-right: auto;"></div>
+  <p style="font-size: 0.82rem; color: rgba(36,31,28,0.55); margin-bottom: 20px;">
+    Menangani Stres, Keresahan &amp; Kemurungan<br>
+    di Kalangan Staf &amp; Pelajar
+  </p>
+  <div class="cover-badge">Politeknik Mukah · September 2026</div>
+  <p style="position: absolute; bottom: 18mm; left: 0; right: 0; text-align: center; font-size: 0.65rem; color: rgba(36,31,28,0.3);">
+    Disediakan untuk Pengurusan Politeknik Mukah · Sulit &amp; Dalaman
+  </p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 2 — KATA ALU-ALUAN
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Kata Alu-Aluan</p>
+  <h2 style="font-size: 2rem; margin-bottom: 8px;">Menjaga Kesejahteraan,<br>Membina Kecemerlangan</h2>
+  <hr class="divider">
+
+  <div class="pullquote" style="margin-top: 28px;">
+    "Kesejahteraan mental bukan sekadar ketiadaan penyakit — ia adalah asas kepada produktiviti, kreativiti dan keharmonian di tempat kerja."
+    <cite>— Pertubuhan Kesihatan Sedunia (WHO)</cite>
+  </div>
+
+  <p style="margin-top: 20px; font-size: 0.92rem; line-height: 1.8;">
+    Politeknik Mukah sentiasa mengutamakan kesejahteraan holistik setiap warganya — daripada pelajar yang baru melangkah ke alam pendidikan tinggi, hinggalah pensyarah dan staf yang menjadi tulang belakang institusi ini.
+  </p>
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    Dalam era pasca-pandemik yang penuh tekanan dan ketidakpastian, keperluan untuk memantau kesihatan mental secara berkala, sulit dan tanpa stigma menjadi semakin mendesak. Data daripada Tinjauan Kebangsaan Kesihatan dan Morbiditi (NHMS) 2023 menunjukkan hampir <strong>satu daripada empat orang dewasa bekerja</strong> di Malaysia melaporkan cabaran kesihatan mental — namun majoriti tidak pernah mendapatkan penilaian profesional.
+  </p>
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    <strong>SaringMinda</strong> hadir sebagai jawapan digital kepada jurang ini. Dibangunkan khas untuk ekosistem Politeknik Mukah, platform ini membolehkan setiap individu menilai tahap stres, keresahan dan kemurungan mereka secara peribadi melalui instrumen DASS-21 yang diiktiraf KKM — <em>tanpa perlu mendedahkan identiti, tanpa rasa segan, tanpa rasa takut.</em>
+  </p>
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    Laporan ini membentangkan kepada pihak pengurusan satu gambaran menyeluruh tentang mengapa SaringMinda dibina, bagaimana ia berfungsi, dan apakah potensinya dalam mentransformasi pendekatan kita terhadap kesejahteraan mental di PMU.
+  </p>
+  <p style="font-size: 0.92rem; line-height: 1.8; color: var(--nipah); font-weight: 600; margin-top: 16px;">
+    Mari kita jadikan PMU bukan sahaja pusat kecemerlangan akademik, tetapi juga institusi yang benar-benar <em>menjaga hati dan minda</em> warganya.
+  </p>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>2</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 3 — ISU KESIHATAN MENTAL DI MALAYSIA
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Konteks Nasional</p>
+  <h2>Isu Kesihatan Mental<br>di Malaysia</h2>
+  <hr class="divider">
+
+  <img src="public/report/statistics_infographic.jpg" alt="Infografik Kesihatan Mental Malaysia" class="page-image" style="height: 160px; object-fit: cover; margin-bottom: 20px; border-radius: 10px;">
+
+  <div class="grid-3" style="margin-bottom: 20px;">
+    <div class="stat-card">
+      <div class="stat-number text-lacquer">29.2%</div>
+      <div class="stat-label">orang dewasa mengalami masalah kesihatan mental</div>
+      <div class="xs text-muted mt-1">NHMS 2023</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number text-nipah">1 : 4</div>
+      <div class="stat-label">orang dewasa bekerja terkesan dengan cabaran mental</div>
+      <div class="xs text-muted mt-1">NHMS 2023</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" style="color: var(--charcoal);">2×</div>
+      <div class="stat-label">peningkatan prevalens kemurungan sejak 2019</div>
+      <div class="xs text-muted mt-1">4.6% pada 2023</div>
+    </div>
+  </div>
+
+  <div class="card mb-3" style="background: rgba(142,44,33,0.03); border-color: rgba(142,44,33,0.2);">
+    <h3 style="font-size: 1rem; color: var(--lacquer);">⚠️ Risiko Psikososial di Tempat Kerja</h3>
+    <p class="small" style="margin-bottom: 4px;">
+      Program NODiP (2023–2025) mendapati <strong>16.91% pekerja</strong> yang disaring berisiko mengalami gangguan psikososial berkaitan kerja — dikaitkan dengan beban tugas berlebihan, tekanan masa dan reka bentuk kerja yang tidak seimbang.
+    </p>
+    <p class="xs text-muted">
+      DOSH telah memperkenalkan Garis Panduan Pengurusan Risiko Psikososial di Tempat Kerja (2024) sebagai respons.
+    </p>
+  </div>
+
+  <h3 style="font-size: 1rem; margin-top: 16px;">Mengapa Politeknik Perlu Bertindak?</h3>
+  <div class="grid-2" style="margin-top: 10px;">
+    <div class="card">
+      <div style="font-size: 1.4rem; margin-bottom: 6px;">👩‍🏫</div>
+      <h4 style="font-size: 0.88rem;">Staf &amp; Pensyarah</h4>
+      <p class="small text-muted">Beban pengajaran, pentadbiran dan penyelidikan boleh menyebabkan <em>burnout</em> yang tidak disedari.</p>
+    </div>
+    <div class="card">
+      <div style="font-size: 1.4rem; margin-bottom: 6px;">🎓</div>
+      <h4 style="font-size: 0.88rem;">Pelajar</h4>
+      <p class="small text-muted">Tekanan akademik, kewangan dan peralihan kehidupan — kumpulan 16–29 tahun mencatatkan prevalens kemurungan tertinggi (7.6–7.9%).</p>
+    </div>
+  </div>
+
+  <div class="pullquote" style="font-size: 1.05rem; margin-top: 20px;">
+    "Saringan berkala bukan menandakan kelemahan — ia adalah tanda kematangan institusi yang mengambil berat."
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>3</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 4 — APA ITU DASS-21?
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Instrumen Saringan</p>
+  <h2>Apa Itu DASS-21?</h2>
+  <hr class="divider">
+
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    <strong>Depression, Anxiety and Stress Scales – 21 Items</strong> (DASS-21) ialah instrumen psikometrik yang dibangunkan oleh Lovibond &amp; Lovibond (1995, Psychology Foundation of Australia) dan telah divalidasi secara meluas dalam konteks Malaysia oleh Kementerian Kesihatan Malaysia (KKM).
+  </p>
+
+  <div class="card-accent card mb-3" style="margin-top: 16px;">
+    <p class="small" style="margin-bottom: 0; color: var(--nipah); font-weight: 600;">
+      ⚠️ DASS-21 ialah <u>alat saringan</u>, bukan alat diagnosis. Keputusan saringan bukan diagnosis klinikal.
+    </p>
+  </div>
+
+  <h3 style="margin-top: 20px;">Tiga Subscale</h3>
+  <p class="small text-muted mb-2">Setiap subscale mengandungi 7 item. Responden menilai pengalaman "seminggu yang lepas" pada skala 0–3.</p>
+
+  <div class="grid-3 mb-3">
+    <div class="card" style="text-align: center; border-top: 3px solid var(--nipah);">
+      <div style="font-size: 1.6rem; margin-bottom: 4px;">🧠</div>
+      <h4 style="font-size: 0.92rem; color: var(--nipah);">Stres</h4>
+      <p class="xs text-muted">Keresahan, kecenderungan melampau, mudah tersinggung</p>
+      <p class="xs"><strong>Item:</strong> 1, 6, 8, 11, 12, 14, 18</p>
+    </div>
+    <div class="card" style="text-align: center; border-top: 3px solid var(--lacquer);">
+      <div style="font-size: 1.6rem; margin-bottom: 4px;">💓</div>
+      <h4 style="font-size: 0.92rem; color: var(--lacquer);">Anzieti</h4>
+      <p class="xs text-muted">Debaran jantung, panik, takut tanpa sebab</p>
+      <p class="xs"><strong>Item:</strong> 2, 4, 7, 9, 15, 19, 20</p>
+    </div>
+    <div class="card" style="text-align: center; border-top: 3px solid var(--charcoal);">
+      <div style="font-size: 1.6rem; margin-bottom: 4px;">🌧️</div>
+      <h4 style="font-size: 0.92rem;">Kemurungan</h4>
+      <p class="xs text-muted">Tiada harapan, tidak bersemangat, rasa tidak berharga</p>
+      <p class="xs"><strong>Item:</strong> 3, 5, 10, 13, 16, 17, 21</p>
+    </div>
+  </div>
+
+  <h3>Tahap Keterukan (Skor Saringan KKM)</h3>
+  <table class="clean-table" style="margin-top: 8px;">
+    <thead>
+      <tr><th>Tahap</th><th>Kemurungan</th><th>Anzieti</th><th>Stres</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="tag tag-dark">Normal</span></td><td>0 – 5</td><td>0 – 4</td><td>0 – 7</td></tr>
+      <tr><td><span class="tag tag-gold">Ringan</span></td><td>6 – 7</td><td>5 – 6</td><td>8 – 9</td></tr>
+      <tr><td><span class="tag tag-gold">Sederhana</span></td><td>8 – 10</td><td>7 – 8</td><td>10 – 13</td></tr>
+      <tr><td><span class="tag tag-red">Teruk</span></td><td>11 – 14</td><td>9 – 10</td><td>14 – 17</td></tr>
+      <tr><td><span class="tag tag-red">Sangat Teruk</span></td><td>15+</td><td>11+</td><td>18+</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card mt-3" style="background: rgba(201,150,46,0.05); border-color: rgba(201,150,46,0.3);">
+    <h4 style="font-size: 0.85rem; color: var(--nipah);">🚩 Bendera Krisis</h4>
+    <p class="small" style="margin-bottom: 0;">
+      Dinyalakan secara bebas daripada tahap keterukan jika:<br>
+      <strong>Item 21</strong> ("Saya rasa hidup ini tidak bererti lagi") ≥ 1, <strong>ATAU</strong><br>
+      <strong>Item 10</strong> ("Saya rasa tidak ada apa yang saya harapkan") ≥ 2
+    </p>
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>4</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 5 — MEMPERKENALKAN SARINGMINDA
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Platform Digital</p>
+  <h2>Memperkenalkan<br>SaringMinda</h2>
+  <hr class="divider">
+
+  <img src="public/report/app_feature_showcase.jpg" alt="SaringMinda pada pelbagai peranti" class="page-image" style="height: 180px; object-fit: cover; margin-bottom: 20px; border-radius: 10px;">
+
+  <p style="font-size: 0.95rem; line-height: 1.8;">
+    <strong>SaringMinda</strong> ialah platform saringan kesihatan mental digital yang dibangunkan khas untuk Politeknik Mukah. Ia menerjemahkan instrumen DASS-21 ke dalam pengalaman interaktif yang <em>mesra pengguna</em>, <em>selamat</em> dan <em>berbudaya Melanau</em> — semuanya diakses menerusi pelayar web tanpa sebarang pemasangan.
+  </p>
+
+  <div class="grid-2 mb-3" style="margin-top: 16px;">
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 1.6rem; margin-bottom: 6px;">🎭</div>
+      <h4 style="font-size: 0.88rem;">Tanpa Nama</h4>
+      <p class="xs text-muted">Tiada log masuk, tiada pengumpulan data peribadi. Skor dikira sepenuhnya di peranti pengguna.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 1.6rem; margin-bottom: 6px;">🌿</div>
+      <h4 style="font-size: 0.88rem;">Identiti Terendak</h4>
+      <p class="xs text-muted">Reka bentuk visual berasaskan <em>terendak</em> Melanau — palet emas nipah, merah lacquer, dan motif anyaman.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 1.6rem; margin-bottom: 6px;">⏱️</div>
+      <h4 style="font-size: 0.88rem;">5 Minit</h4>
+      <p class="xs text-muted">Keseluruhan saringan boleh disiapkan dalam masa 5 minit, pada bila-bila masa dan di mana-mana sahaja.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 1.6rem; margin-bottom: 6px;">📱</div>
+      <h4 style="font-size: 0.88rem;">Responsif</h4>
+      <p class="xs text-muted">Dioptimumkan untuk telefon bimbit (375px) hingga desktop (1440px). Tiada pemasangan aplikasi.</p>
+    </div>
+  </div>
+
+  <h3>Teknologi Di Sebalik Tabir</h3>
+  <div class="grid-2" style="margin-top: 10px;">
+    <div>
+      <p class="small"><strong>Pembangunan:</strong></p>
+      <ul class="check-list" style="margin-top: 4px;">
+        <li>Next.js 14 (React)</li>
+        <li>Tailwind CSS</li>
+        <li>TypeScript</li>
+      </ul>
+    </div>
+    <div>
+      <p class="small"><strong>Infrastruktur:</strong></p>
+      <ul class="check-list" style="margin-top: 4px;">
+        <li>Supabase (PostgreSQL)</li>
+        <li>Row-Level Security (RLS)</li>
+        <li>Vercel Deployment</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pullquote" style="font-size: 1rem; margin-top: 20px;">
+    "Dibina di PMU, untuk PMU — dengan teknologi bertaraf industri dan kepekaan budaya Sarawak."
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>5</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 6 — CIRI: SARINGAN TANPA NAMA
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Ciri Utama 01</p>
+  <h2>Saringan Tanpa Nama<br>&amp; Persetujuan Bermaklumat</h2>
+  <hr class="divider">
+
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    Privasi adalah tiang utama SaringMinda. Setiap reka bentuk keputusan — dari seni bina pangkalan data hingga alur pengguna — dibuat untuk melindungi kerahsiaan responden sambil tetap memberikan data agregat bermakna kepada kaunselor.
+  </p>
+
+  <h3 style="margin-top: 20px;">Alur Pengguna</h3>
+  <div style="margin-top: 12px;">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Persetujuan Bermaklumat</p>
+        <p class="xs text-muted">Responden membaca penafian KKM dan dasar privasi. Butang "Mula Saringan" hanya aktif selepas kotak persetujuan ditandakan.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">UUID Sesi (Dalam Memori Sahaja)</p>
+        <p class="xs text-muted">Satu UUID sesi dijana secara rawak dalam memori pelayar. Ia tidak disimpan dalam <em>localStorage</em>, kuki, atau URL — hilang apabila tab ditutup.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">21 Soalan (Seminggu Yang Lepas)</p>
+        <p class="xs text-muted">Setiap soalan dijawab pada skala 0–3. Bar kemajuan 21 jalur anyaman menunjukkan perkembangan. Semua jawapan wajib.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Pengiraan Skor Sisi Klien</p>
+        <p class="xs text-muted">Skor dikira sepenuhnya dalam pelayar pengguna — tiada jawapan dihantar ke pelayan untuk diproses.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="band-strip"></div>
+
+  <h3>Lapisan Perlindungan Privasi</h3>
+  <div class="grid-2" style="margin-top: 10px;">
+    <div class="card">
+      <h4 style="font-size: 0.82rem;">🔒 Tanpa Log Masuk</h4>
+      <p class="xs text-muted">Responden tidak perlu mendaftar atau memasukkan sebarang pengenalan diri untuk memulakan saringan.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size: 0.82rem;">🗄️ RLS Ketat</h4>
+      <p class="xs text-muted">Row-Level Security di Supabase memastikan akaun anonim hanya boleh <em>INSERT</em>, tidak boleh <em>SELECT</em>.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size: 0.82rem;">🧊 Sesi Fana</h4>
+      <p class="xs text-muted">UUID sesi wujud dalam memori sahaja. Muat semula halaman = sesi baru. Tiada jejak.</p>
+    </div>
+    <div class="card">
+      <h4 style="font-size: 0.82rem;">📋 Penafian Jelas</h4>
+      <p class="xs text-muted">Setiap halaman hasil memaparkan peringatan: "DASS-21 ialah alat saringan, bukan alat diagnosis."</p>
+    </div>
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>6</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 7 — CIRI: KEPUTUSAN VISUAL
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Ciri Utama 02</p>
+  <h2>Keputusan Visual &amp;<br>Pelan Tindakan</h2>
+  <hr class="divider">
+
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    Apabila responden menyelesaikan 21 soalan, halaman keputusan mempersembahkan maklumat skor mereka dalam format yang mudah difahami, tidak menakutkan dan berasaskan tindakan.
+  </p>
+
+  <h3 style="margin-top: 20px;">Tiga Gauge Keterukan</h3>
+  <p class="small text-muted mb-2">Setiap subscale dipaparkan sebagai bar mendatar bersegmen, dengan penanda menunjukkan kedudukan skor.</p>
+
+  <div style="margin-top: 12px;">
+    <p class="small font-semibold mb-1">Stres — Skor: 12 / 21</p>
+    <div class="gauge-bar">
+      <div class="gauge-seg gauge-normal" style="width: 36%;"></div>
+      <div class="gauge-seg gauge-ringan" style="width: 9%;"></div>
+      <div class="gauge-seg gauge-sederhana" style="width: 18%;"></div>
+      <div class="gauge-seg gauge-teruk" style="width: 18%;"></div>
+      <div class="gauge-seg gauge-sangat" style="width: 19%;"></div>
+    </div>
+    <div class="gauge-labels"><span>Normal</span><span>Ringan</span><span>Sederhana</span><span>Teruk</span><span>Sangat Teruk</span></div>
+  </div>
+
+  <div style="margin-top: 14px;">
+    <p class="small font-semibold mb-1">Anzieti — Skor: 6 / 21</p>
+    <div class="gauge-bar">
+      <div class="gauge-seg gauge-normal" style="width: 23%;"></div>
+      <div class="gauge-seg gauge-ringan" style="width: 9%;"></div>
+      <div class="gauge-seg gauge-sederhana" style="width: 9%;"></div>
+      <div class="gauge-seg gauge-teruk" style="width: 9%;"></div>
+      <div class="gauge-seg gauge-sangat" style="width: 50%;"></div>
+    </div>
+    <div class="gauge-labels"><span>Normal</span><span>Ringan</span><span>Sederhana</span><span>Teruk</span><span>Sangat Teruk</span></div>
+  </div>
+
+  <div style="margin-top: 14px; margin-bottom: 16px;">
+    <p class="small font-semibold mb-1">Kemurungan — Skor: 3 / 21</p>
+    <div class="gauge-bar">
+      <div class="gauge-seg gauge-normal" style="width: 27%;"></div>
+      <div class="gauge-seg gauge-ringan" style="width: 9%;"></div>
+      <div class="gauge-seg gauge-sederhana" style="width: 14%;"></div>
+      <div class="gauge-seg gauge-teruk" style="width: 18%;"></div>
+      <div class="gauge-seg gauge-sangat" style="width: 32%;"></div>
+    </div>
+    <div class="gauge-labels"><span>Normal</span><span>Ringan</span><span>Sederhana</span><span>Teruk</span><span>Sangat Teruk</span></div>
+  </div>
+
+  <div class="band-strip"></div>
+
+  <h3>Pelan Tindakan Bertahap</h3>
+  <p class="small text-muted mb-2">Setiap tahap keterukan mempunyai cadangan tindakan yang khusus:</p>
+
+  <div class="grid-2" style="margin-top: 8px;">
+    <div class="card">
+      <p class="small"><span class="tag tag-dark">Normal</span></p>
+      <p class="xs text-muted" style="margin-top: 6px;">Kekalkan rutin penjagaan diri. Ulang saringan dari semasa ke semasa.</p>
+    </div>
+    <div class="card">
+      <p class="small"><span class="tag tag-gold">Ringan / Sederhana</span></p>
+      <p class="xs text-muted" style="margin-top: 6px;">Teknik relaksasi, pantau perasaan. Pertimbangkan berjumpa kaunselor.</p>
+    </div>
+    <div class="card">
+      <p class="small"><span class="tag tag-red">Teruk / Sangat Teruk</span></p>
+      <p class="xs text-muted" style="margin-top: 6px;">Dapatkan penilaian profesional segera. Hubungi talian sokongan.</p>
+    </div>
+    <div class="card card-lacquer">
+      <p class="small"><span class="tag tag-red">🚩 Krisis</span></p>
+      <p class="xs text-muted" style="margin-top: 6px;">Panel sokongan segera: Talian HEAL (15555), Befrienders Kuching (082-242800).</p>
+    </div>
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>7</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 8 — CIRI: PERMOHONAN TEMUJANJI
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Ciri Utama 03</p>
+  <h2>Permohonan Temujanji<br>Kaunseling Sukarela</h2>
+  <hr class="divider">
+
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    Apabila skor saringan mencapai tahap <strong>Sederhana</strong> atau lebih tinggi (atau mencetus bendera krisis), SaringMinda secara berhemah menawarkan responden peluang untuk <em>berjumpa kaunselor</em> — tanpa sebarang paksaan.
+  </p>
+
+  <h3 style="margin-top: 20px;">Dua Pilihan, Satu Prinsip</h3>
+  <div class="grid-2" style="margin-top: 12px; margin-bottom: 16px;">
+    <div class="card card-accent" style="text-align: center;">
+      <div style="font-size: 1.6rem; margin-bottom: 8px;">✅</div>
+      <h4 style="font-size: 0.95rem; color: var(--nipah);">"Ya, Saya Berminat"</h4>
+      <p class="xs text-muted" style="margin-top: 6px;">Borang identiti dipaparkan.<br>Nama, telefon, jabatan &amp; skor dikongsi dengan Unit Kaunseling.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 1.6rem; margin-bottom: 8px;">🙏</div>
+      <h4 style="font-size: 0.95rem;">"Tidak, Terima Kasih"</h4>
+      <p class="xs text-muted" style="margin-top: 6px;">Hanya bilangan sahaja direkodkan.<br><strong>Tiada identiti, tiada data peribadi.</strong><br>Pangkalan data menguatkuasakan ini.</p>
+    </div>
+  </div>
+
+  <h3>Borang Pintar Mengikut Kategori</h3>
+  <p class="small text-muted mb-2">Borang menyesuaikan medan bergantung kepada jenis responden:</p>
+
+  <table class="clean-table">
+    <thead>
+      <tr><th>Medan</th><th>Pelajar</th><th>Pensyarah / Staf</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Nama Penuh</td><td>✓ *</td><td>✓ *</td></tr>
+      <tr><td>Jantina</td><td>✓ *</td><td>✓ *</td></tr>
+      <tr><td>No. Pendaftaran</td><td>✓ *</td><td>—</td></tr>
+      <tr><td>No. Staf / Pekerja</td><td>—</td><td>✓ (pilihan)</td></tr>
+      <tr><td>Kumpulan Perkhidmatan</td><td>—</td><td>✓ *</td></tr>
+      <tr><td>Jawatan</td><td>—</td><td>✓ *</td></tr>
+      <tr><td>Jabatan / Unit</td><td>✓ * (6 jabatan)</td><td>✓ * (13 unit)</td></tr>
+      <tr><td>Kelas / Semester</td><td>✓ *</td><td>—</td></tr>
+      <tr><td>No. Telefon</td><td>✓ *</td><td>✓ *</td></tr>
+      <tr><td>E-mel</td><td>Pilihan</td><td>Pilihan</td></tr>
+      <tr><td>Waktu Sesuai</td><td>Pilihan</td><td>Pilihan</td></tr>
+      <tr><td>Catatan</td><td>Pilihan</td><td>Pilihan</td></tr>
+    </tbody>
+  </table>
+  <p class="xs text-muted mt-1">* Medan wajib. Persetujuan tambahan diperlukan sebelum penghantaran.</p>
+
+  <div class="pullquote" style="font-size: 1rem; margin-top: 16px;">
+    "Identiti hanya wujud apabila responden sendiri memilih untuk berkongsinya — dan hanya untuk tujuan temujanji."
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>8</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 9 — CIRI: DASHBOARD KAUNSELOR
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Ciri Utama 04</p>
+  <h2>Dashboard Kaunselor</h2>
+  <hr class="divider">
+
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    Kaunselor berdaftar mengakses papan pemuka yang dilindungi kata laluan di <code>/admin</code>. Dashboard ini menyatukan semua data saringan dan permohonan temujanji dalam satu antara muka yang intuitif.
+  </p>
+
+  <h3 style="margin-top: 20px;">Kad Statistik Ringkas</h3>
+  <div class="grid-3" style="margin-top: 10px; margin-bottom: 16px;">
+    <div class="stat-card" style="border-top: 3px solid var(--charcoal);">
+      <div class="stat-number" style="font-size: 1.6rem;">247</div>
+      <div class="stat-label">Jumlah Saringan</div>
+    </div>
+    <div class="stat-card" style="border-top: 3px solid var(--lacquer);">
+      <div class="stat-number text-lacquer" style="font-size: 1.6rem;">12</div>
+      <div class="stat-label">Bendera Krisis 🚩</div>
+    </div>
+    <div class="stat-card" style="border-top: 3px solid var(--nipah);">
+      <div class="stat-number text-nipah" style="font-size: 1.6rem;">38</div>
+      <div class="stat-label">Mohon Temujanji</div>
+    </div>
+  </div>
+
+  <h3>Senarai Permohonan Temujanji</h3>
+  <p class="small text-muted mb-2">Setiap kad permohonan memaparkan maklumat lengkap:</p>
+
+  <div class="card mb-3" style="border-left: 4px solid var(--lacquer); padding: 14px 16px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <strong class="small">Ahmad Bin Razak</strong>
+        <span class="tag tag-dark">Pelajar</span>
+        <span class="tag tag-red">🚩 Krisis</span>
+      </div>
+      <span class="xs text-muted">20 Sep 2026</span>
+    </div>
+    <div class="grid-2 xs text-muted" style="gap: 4px 16px;">
+      <span>No. Pendaftaran: A231005</span>
+      <span>Telefon: <span class="text-nipah">019-5551234</span></span>
+      <span>Jabatan: JKE</span>
+      <span>Kelas: Sem 2</span>
+    </div>
+    <p class="xs" style="margin-top: 8px; background: rgba(232,217,176,0.3); padding: 6px 10px; border-radius: 6px; font-style: italic;">
+      "Saya risau saya tidak boleh mengikuti ujian"
+    </p>
+    <p class="xs text-muted" style="margin-top: 6px; border-top: 1px solid rgba(232,217,176,0.5); padding-top: 6px;">
+      <span class="text-lacquer font-semibold">Stres 18 · Sangat Teruk</span> —
+      <span class="text-lacquer font-semibold">Anzieti 11 · Sangat Teruk</span> —
+      <span>Kemurungan 5 · Normal</span>
+    </p>
+  </div>
+
+  <h3>Jadual Saringan Terkini</h3>
+  <p class="small text-muted mb-2">100 saringan terbaharu (anonim). Baris krisis diserlahkan merah jambu.</p>
+
+  <table class="clean-table" style="font-size: 0.75rem;">
+    <thead>
+      <tr><th>Tarikh</th><th>Stres</th><th>Anzieti</th><th>Kemurungan</th><th>Krisis</th></tr>
+    </thead>
+    <tbody>
+      <tr style="background: rgba(142,44,33,0.04);">
+        <td>20 Sep, 14:30</td><td class="text-lacquer font-semibold">18 · Sangat Teruk</td><td class="text-lacquer font-semibold">11 · Sangat Teruk</td><td>5 · Normal</td><td><span class="tag tag-red">Ya</span></td>
+      </tr>
+      <tr>
+        <td>20 Sep, 11:15</td><td class="text-nipah">10 · Sederhana</td><td>4 · Normal</td><td class="text-nipah">8 · Sederhana</td><td>—</td>
+      </tr>
+      <tr>
+        <td>19 Sep, 16:40</td><td>6 · Normal</td><td>3 · Normal</td><td>2 · Normal</td><td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>9</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 10 — SENI BINA & KESELAMATAN
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Seni Bina Teknikal</p>
+  <h2>Seni Bina &amp; Keselamatan</h2>
+  <hr class="divider">
+
+  <img src="public/report/architecture_security.jpg" alt="Seni Bina dan Keselamatan SaringMinda" class="page-image" style="height: 170px; object-fit: cover; margin-bottom: 20px; border-radius: 10px;">
+
+  <h3>Aliran Data</h3>
+  <div style="margin-top: 12px;">
+    <div class="flow-step">
+      <div class="icon-circle">📱</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Pelayar Responden</p>
+        <p class="xs text-muted">Menjawab 21 soalan → Skor dikira <em>client-side</em> → INSERT ke Supabase (anon key)</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="icon-circle straw">🗄️</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Supabase (PostgreSQL + RLS)</p>
+        <p class="xs text-muted">Menerima insert anonim. RLS menghalang SELECT oleh pengguna anonim. Data disimpan selamat.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="icon-circle lacquer">🔐</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Dashboard Kaunselor (Dilindungi)</p>
+        <p class="xs text-muted">Hanya pengguna berdaftar dalam <code>admin_profiles</code> boleh SELECT. Fungsi <code>is_staff()</code> mengesahkan kelayakan.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="band-strip"></div>
+
+  <h3>Model Keselamatan</h3>
+  <table class="clean-table" style="margin-top: 8px;">
+    <thead>
+      <tr><th>Peranan</th><th>INSERT</th><th>SELECT</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tag tag-dark">Anonim (Anon)</span></td>
+        <td style="color: green;">✅ responses, screening_results, counseling_referrals</td>
+        <td style="color: var(--lacquer);">❌ Tiada akses baca</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-gold">Kaunselor (Auth + admin_profiles)</span></td>
+        <td style="color: green;">✅ Semua</td>
+        <td style="color: green;">✅ Semua</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 20px;">Jadual Pangkalan Data</h3>
+  <div class="grid-2" style="margin-top: 10px;">
+    <div class="card">
+      <h4 class="xs font-semibold">questions</h4>
+      <p class="xs text-muted">21 item DASS-21 (teks BM, subscale)</p>
+    </div>
+    <div class="card">
+      <h4 class="xs font-semibold">responses</h4>
+      <p class="xs text-muted">Jawapan mentah (21 per responden)</p>
+    </div>
+    <div class="card">
+      <h4 class="xs font-semibold">screening_results</h4>
+      <p class="xs text-muted">Skor agregat + tahap + bendera krisis</p>
+    </div>
+    <div class="card">
+      <h4 class="xs font-semibold">admin_profiles</h4>
+      <p class="xs text-muted">Pendaftaran kaunselor (e-mel, peranan)</p>
+    </div>
+    <div class="card" style="grid-column: span 2;">
+      <h4 class="xs font-semibold">counseling_referrals</h4>
+      <p class="xs text-muted">Permohonan temujanji sukarela. Rekod "Tidak" mengandungi tiada identiti (dikuatkuasakan oleh RLS). Rekod "Ya" mengandungi nama, telefon, jabatan, skor dan bendera krisis.</p>
+    </div>
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>10</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 11 — UNTUK PELAJAR & UNTUK STAF
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Reka Bentuk Dwi-Laluan</p>
+  <h2>Untuk Pelajar &amp;<br>Untuk Staf</h2>
+  <hr class="divider">
+
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    SaringMinda menyediakan <strong>dua laluan masuk</strong> yang berasingan — mengiktiraf bahawa konteks tekanan dan keperluan data kaunselor berbeza antara pelajar dan staf.
+  </p>
+
+  <div class="grid-2" style="margin-top: 20px;">
+    <div class="card" style="border-top: 4px solid var(--charcoal);">
+      <div style="text-align: center; margin-bottom: 12px;">
+        <div style="font-size: 2rem;">🎓</div>
+        <h3 style="font-size: 1.1rem; margin-top: 6px;">Laluan Pelajar</h3>
+        <p class="xs text-muted">Halaman utama: <code>/</code></p>
+      </div>
+      <p class="small font-semibold" style="color: var(--nipah);">Soalan DASS-21</p>
+      <p class="xs text-muted mb-2">21 item standard, sama untuk kedua-dua laluan.</p>
+      <p class="small font-semibold" style="color: var(--nipah);">Medan Temujanji</p>
+      <ul class="xs text-muted" style="list-style: disc; padding-left: 18px; margin-bottom: 8px;">
+        <li>Nama Penuh</li>
+        <li>No. Pendaftaran *</li>
+        <li>Jabatan (6 jabatan akademik)</li>
+        <li>Kelas / Semester *</li>
+        <li>No. Telefon *</li>
+      </ul>
+      <p class="small font-semibold" style="color: var(--nipah);">Konteks Tekanan Khas</p>
+      <p class="xs text-muted">Akademik, kewangan, peralihan kehidupan, tekanan rakan sebaya.</p>
+    </div>
+
+    <div class="card" style="border-top: 4px solid var(--nipah);">
+      <div style="text-align: center; margin-bottom: 12px;">
+        <div style="font-size: 2rem;">👩‍🏫</div>
+        <h3 style="font-size: 1.1rem; margin-top: 6px;">Laluan Pensyarah &amp; Staf</h3>
+        <p class="xs text-muted">Halaman khas: <code>/pensyarah</code></p>
+      </div>
+      <p class="small font-semibold" style="color: var(--nipah);">Soalan DASS-21</p>
+      <p class="xs text-muted mb-2">21 item standard, sama untuk kedua-dua laluan.</p>
+      <p class="small font-semibold" style="color: var(--nipah);">Medan Temujanji</p>
+      <ul class="xs text-muted" style="list-style: disc; padding-left: 18px; margin-bottom: 8px;">
+        <li>Nama Penuh</li>
+        <li>No. Staf / Pekerja (pilihan)</li>
+        <li>Kumpulan Perkhidmatan *</li>
+        <li>Jawatan (DH / Sokongan Akademik) *</li>
+        <li>Jabatan / Unit (13 unit)</li>
+        <li>No. Telefon *</li>
+      </ul>
+      <p class="small font-semibold" style="color: var(--nipah);">Konteks Tekanan Khas</p>
+      <p class="xs text-muted">Beban pengajaran, pentadbiran, penyelidikan, <em>burnout</em>, kenaikan pangkat.</p>
+    </div>
+  </div>
+
+  <div class="band-strip"></div>
+
+  <h3>Dashboard Kaunselor: Dwi-Tab</h3>
+  <p class="small text-muted">
+    Kaunselor mempunyai <strong>dua tab</strong> dalam papan pemuka: <span class="tag tag-dark">Dashboard Utama (Semua / Pelajar)</span> dan <span class="tag tag-gold">Dashboard Pensyarah &amp; Staf</span>. Setiap tab menapis statistik dan permohonan mengikut kategori — memudahkan prioriti dan tindakan susulan.
+  </p>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>11</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 12 — POTENSI & HARAPAN
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Hala Tuju Masa Depan</p>
+  <h2>Potensi &amp; Harapan</h2>
+  <hr class="divider">
+
+  <img src="public/report/vision_future.jpg" alt="Visi masa depan SaringMinda" class="page-image" style="height: 180px; object-fit: cover; margin-bottom: 20px; border-radius: 10px;">
+
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    SaringMinda dibangunkan sebagai asas yang kukuh — platform yang akan terus berkembang seiring dengan keperluan institusi dan perkembangan amalan terbaik dalam kesihatan mental tempat kerja.
+  </p>
+
+  <h3 style="margin-top: 16px;">Penambahbaikan Berfasa</h3>
+  <div style="margin-top: 12px;">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Eksport CSV untuk Kaunselor</p>
+        <p class="xs text-muted">Membolehkan data saringan agregat dimuat turun untuk analisis lanjut dan laporan berkala kepada pengurusan.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Carta Trend &amp; Analitik Visual</p>
+        <p class="xs text-muted">Paparan graf interaktif — bilangan saringan dari masa ke semasa, taburan tahap keterukan, perbandingan jabatan.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Notifikasi E-mel untuk Kes Krisis</p>
+        <p class="xs text-muted">Makluman automatik kepada kaunselor apabila bendera krisis dicetuskan — mempercepatkan respons.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Sokongan Pelbagai Bahasa</p>
+        <p class="xs text-muted">Penambahan Bahasa Inggeris, Iban, dan bahasa tempatan lain untuk meningkatkan ketercapaian.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Integrasi dengan JPPKK &amp; KKM</p>
+        <p class="xs text-muted">Pelaporan automatik ke Jabatan Pendidikan Politeknik dan Kolej Komuniti untuk pemantauan peringkat kebangsaan.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="band-strip"></div>
+
+  <h3>Impak Yang Dijangkakan</h3>
+  <div class="grid-3" style="margin-top: 10px;">
+    <div class="stat-card" style="border-top: 3px solid var(--nipah);">
+      <div style="font-size: 1.5rem; margin-bottom: 6px;">🔍</div>
+      <div class="stat-label font-semibold" style="color: var(--charcoal);">Pengesanan Awal</div>
+      <p class="xs text-muted mt-1">Mengenal pasti individu berisiko sebelum krisis berlaku.</p>
+    </div>
+    <div class="stat-card" style="border-top: 3px solid var(--lacquer);">
+      <div style="font-size: 1.5rem; margin-bottom: 6px;">📊</div>
+      <div class="stat-label font-semibold" style="color: var(--charcoal);">Data Bermakna</div>
+      <p class="xs text-muted mt-1">Menyokong perancangan program kesejahteraan berasaskan bukti.</p>
+    </div>
+    <div class="stat-card" style="border-top: 3px solid var(--charcoal);">
+      <div style="font-size: 1.5rem; margin-bottom: 6px;">🤝</div>
+      <div class="stat-label font-semibold" style="color: var(--charcoal);">Budaya Keterbukaan</div>
+      <p class="xs text-muted mt-1">Mengurangkan stigma dengan menjadikan saringan mental sebagai perkara biasa.</p>
+    </div>
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>12</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 13 — PENUTUP & SERUAN TINDAKAN
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Seruan Tindakan</p>
+  <h2>Penutup &amp;<br>Langkah Seterusnya</h2>
+  <hr class="divider">
+
+  <div class="pullquote" style="margin-top: 16px;">
+    "Tidak ada pelaburan yang lebih bermakna daripada pelaburan dalam kesejahteraan manusia. Setiap saringan yang dilakukan hari ini mungkin menyelamatkan seseorang esok."
+  </div>
+
+  <p style="font-size: 0.92rem; line-height: 1.8; margin-top: 16px;">
+    SaringMinda bukan sekadar aplikasi — ia adalah komitmen Politeknik Mukah untuk mewujudkan ekosistem yang <em>benar-benar peduli</em> tentang kesejahteraan setiap warganya. Dengan teknologi yang selamat, reka bentuk yang sensitif dan instrumen yang diiktiraf, platform ini siap untuk dilancarkan.
+  </p>
+
+  <h3 style="margin-top: 24px;">Cadangan Pelaksanaan</h3>
+  <div style="margin-top: 12px;">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Kelulusan Pengurusan</p>
+        <p class="xs text-muted">Endorsement rasmi daripada Pengarah untuk pelancaran dan promosi dalaman.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Penyediaan Infrastruktur</p>
+        <p class="xs text-muted">Konfigurasi Supabase, pendaftaran akaun kaunselor, penggunaan ke Vercel.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Latihan Kaunselor</p>
+        <p class="xs text-muted">Sesi orientasi penggunaan dashboard, interpretasi skor dan protokol susulan.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Pelancaran Fasa 1 — Staf &amp; Pensyarah</p>
+        <p class="xs text-muted">Pelancaran dalaman untuk staf dan pensyarah. Kod QR di bilik staf dan mesyuarat.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Pelancaran Fasa 2 — Pelajar</p>
+        <p class="xs text-muted">Penyebaran melalui orientasi pelajar baharu, poster di kampus dan portal pelajar.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">6</div>
+      <div>
+        <p class="small font-semibold" style="margin-bottom: 2px;">Pemantauan &amp; Pelaporan Berkala</p>
+        <p class="xs text-muted">Laporan bulanan/suku tahunan kepada pengurusan berdasarkan data agregat daripada dashboard.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="band-strip"></div>
+
+  <div class="card card-accent" style="text-align: center; padding: 24px;">
+    <h3 style="font-size: 1.15rem; color: var(--nipah); margin-bottom: 8px;">Bersedia untuk Melancarkan SaringMinda?</h3>
+    <p class="small text-muted" style="margin-bottom: 12px;">
+      Platform ini sudah <strong>production-ready</strong> — hanya menunggu endorsement pengurusan dan konfigurasi Supabase.
+    </p>
+    <div class="cover-badge" style="font-size: 0.68rem;">Status: Sedia untuk Pelancaran</div>
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>13</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 14 — PENGHARGAAN & RUJUKAN
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <p class="kicker">Penghargaan &amp; Rujukan</p>
+  <h2>Penghargaan</h2>
+  <hr class="divider">
+
+  <p style="font-size: 0.92rem; line-height: 1.8;">
+    Laporan ini dan platform SaringMinda tidak akan terwujud tanpa sokongan dan sumbangan pelbagai pihak.
+  </p>
+
+  <div class="card mb-3" style="margin-top: 16px;">
+    <h3 style="font-size: 1rem; color: var(--nipah);">Politeknik Mukah</h3>
+    <p class="small text-muted">Pengurusan tertinggi, Unit Kaunseling, dan seluruh warga PMU yang menjadi inspirasi dan sasaran utama platform ini.</p>
+  </div>
+
+  <div class="card mb-3">
+    <h3 style="font-size: 1rem;">Instrumen DASS-21</h3>
+    <p class="small text-muted">
+      Lovibond, S. H., &amp; Lovibond, P. F. (1995). <em>Manual for the Depression Anxiety Stress Scales.</em> Psychology Foundation of Australia.<br>
+      <span class="xs">Instrumen saringan, bukan alat diagnostik.</span>
+    </p>
+  </div>
+
+  <div class="card mb-3">
+    <h3 style="font-size: 1rem;">Kementerian Kesihatan Malaysia (KKM)</h3>
+    <p class="small text-muted">
+      Buku panduan "Tangani Stres Anda" — cutoff skor saringan DASS-21 yang digunakan dalam SaringMinda ditranskrip secara verbatim daripada panduan ini.
+    </p>
+  </div>
+
+  <div class="band-strip"></div>
+
+  <h3>Rujukan &amp; Sumber Data</h3>
+  <ol style="font-size: 0.82rem; line-height: 1.9; padding-left: 20px; color: rgba(36,31,28,0.8);">
+    <li>Institut Kesihatan Umum. <em>Tinjauan Kebangsaan Kesihatan dan Morbiditi (NHMS) 2023.</em> Kementerian Kesihatan Malaysia.</li>
+    <li>Jabatan Keselamatan dan Kesihatan Pekerjaan (DOSH). <em>Garis Panduan Pengurusan Risiko Psikososial di Tempat Kerja (2024).</em></li>
+    <li>Program Pencegahan Penyakit Pekerjaan Kebangsaan (NODiP). Data saringan psikososial 2023–2025.</li>
+    <li>Pertubuhan Kesihatan Sedunia (WHO). <em>Mental Health in the Workplace.</em> Geneva, 2022.</li>
+    <li>Lovibond, S. H., &amp; Lovibond, P. F. (1995). <em>Manual for the Depression Anxiety Stress Scales.</em> Psychology Foundation of Australia.</li>
+  </ol>
+
+  <div class="band-strip"></div>
+
+  <h3>Teras Teknologi</h3>
+  <div class="grid-3" style="margin-top: 10px;">
+    <div class="stat-card">
+      <div class="stat-label font-semibold" style="color: var(--charcoal); font-size: 0.78rem;">Next.js 14</div>
+      <p class="xs text-muted">React Framework</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label font-semibold" style="color: var(--charcoal); font-size: 0.78rem;">Supabase</div>
+      <p class="xs text-muted">PostgreSQL + Auth + RLS</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label font-semibold" style="color: var(--charcoal); font-size: 0.78rem;">Tailwind CSS</div>
+      <p class="xs text-muted">Utility-First Styling</p>
+    </div>
+  </div>
+
+  <div style="margin-top: 32px; text-align: center;">
+    <div class="band-strip" style="width: 120px; margin-left: auto; margin-right: auto;"></div>
+    <p style="font-family: var(--display); font-size: 1.6rem; font-weight: 700; color: var(--charcoal); margin-top: 12px;">SaringMinda</p>
+    <p class="xs text-muted">Politeknik Mukah · September 2026</p>
+    <p class="xs text-muted" style="margin-top: 4px;">Laporan ini disediakan untuk edaran dalaman sahaja.</p>
+  </div>
+
+  <div class="footer-line">
+    <span>SaringMinda · Laporan Eksekutif</span>
+    <span>14</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import AbstractBackground from "@/components/AbstractBackground";
+import AdminSessionNotice from "@/components/AdminSessionNotice";
 import { startSession } from "@/lib/session";
 
 const DISCLAIMER_MS =
@@ -40,6 +41,9 @@ export default function PensyarahLandingPage() {
       </div>
 
       <div className="relative z-10 flex w-full max-w-xl flex-1 flex-col items-center justify-center text-center">
+        <div className="w-full text-left">
+          <AdminSessionNotice />
+        </div>
         <p className="mb-3 font-body text-sm uppercase tracking-[0.2em] text-nipah">
           Saringan Kesihatan Mental Staf & Pensyarah
         </p>

@@ -13,6 +13,7 @@ import { scoreDass21, type AnswerMap } from "@/lib/scoring";
 import { getSupabase, saveScreening } from "@/lib/supabase";
 import { getSessionUuid, getSessionUserType, setScreeningResult } from "@/lib/session";
 import AbstractBackground from "@/components/AbstractBackground";
+import AdminSessionNotice from "@/components/AdminSessionNotice";
 
 const TOTAL_ITEMS = DASS21_ITEMS.length;
 
@@ -129,6 +130,7 @@ export default function SaringPage() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-2xl px-4 py-8 sm:px-6">
+        <AdminSessionNotice />
         <header className="mb-6 text-center">
           <p className="mb-1 font-body text-xs uppercase tracking-[0.2em] text-nipah">
             SaringMinda
